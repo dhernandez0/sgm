@@ -44,3 +44,16 @@ ICCS2016 – International Conference on Computational Science 2016
 
 - Maximum disparity has to be 128
 - Image width and height must be a divisible by 4
+
+## What to cite
+
+If you use this code for your research, please kindly cite:
+
+```
+@INPROCEEDINGS {sgm_gpu_iccs2016,
+   author     = {Daniel Hernandez and Alejandro Chacon and Antonio Espinosa and David Vazquez and Juan Carlos Moure and Antonio Lopez},
+   title      = {Embedded real-time stereo estimation via Semi-Global Matching on the GPU},
+   booktitle  = {International Conference on Computational Science},
+   year       = {2016}
+}
+```
