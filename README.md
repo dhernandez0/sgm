@@ -50,14 +50,23 @@ ICCS2016 – International Conference on Computational Science 2016
 If you use this code for your research, please kindly cite:
 
 ```
-@article{sgm_gpu_iccs2016,
-author = "D. Hernandez-Juarez and A. Chacon and A. Espinosa and D. Vazquez and J.C. Moure and A.M. Lopez",
-title = "Embedded Real-time Stereo Estimation via Semi-global Matching on the GPU ",
-journal = "Procedia Computer Science ",
-volume = "80",
-number = "",
-pages = "143 - 153",
-note = "International Conference on Computational Science (ICCS), 6-8 June 2016, San Diego, California ",
-year         = {2016}
+@inproceedings{sgm_gpu_iccs2016,
+  author    = {Daniel Hernandez-Juarez and
+               Alejandro Chac{\'{o}}n and
+               Antonio Espinosa and
+               David V{\'{a}}zquez and
+               Juan Carlos Moure and
+               Antonio M. L{\'{o}}pez},
+  title     = {Embedded Real-time Stereo Estimation via Semi-Global Matching on the
+               {GPU}},
+  booktitle = {International Conference on Computational Science 2016, {ICCS} 2016,
+               6-8 June 2016, San Diego, California, {USA}},
+  pages     = {143--153},
+  year      = {2016},
+  crossref  = {DBLP:conf/iccS/2016},
+  url       = {http://dx.doi.org/10.1016/j.procs.2016.05.305},
+  doi       = {10.1016/j.procs.2016.05.305},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/iccS/JuarezCEVML16},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
 }
 ```
