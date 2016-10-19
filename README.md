@@ -2,6 +2,22 @@
 
 This is the implementation of [Embedded real-time stereo estimation via Semi-Global Matching on the GPU](http://www.sciencedirect.com/science/article/pii/S1877050916306561), [D. Hernandez-Juarez](http://www.cvc.uab.es/people/dhernandez/) et al, ICCS 2016.
 
+Performance obtained measured in Frames Per Second (FPS):
+
+|                 |     2 paths   |     4 paths   |     8 paths     |
+| -------------   |:-------------:|:-------------:|:---------------:|
+| NVIDIA Tegra X1 | 81            |    42         |     19          |
+| NVIDIA Titan X  | 886           |     475       |     237         |
+
+Results for example image (left and right Images):
+
+<img src="example/left/2.png" alt="Left Image" width="45%">
+<img src="example/right/2.png" alt="Right Image" width="45%">
+
+Results for example image (Output):
+
+<img src="example/disparities/2.png" alt="Example output" width="100%">
+
 ## How to compile and test
 
 Simply use CMake and target the output directory as "build". In command line this would be (from the project root folder):
