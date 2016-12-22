@@ -61,6 +61,11 @@ ICCS2016 – International Conference on Computational Science 2016
 - Maximum disparity has to be 128
 - Image width and height must be a divisible by 4
 
+## Troubleshooting
+
+- Very fast execution and black disparity result: 
+This is usually an error related to the compute architecture used. Look at the CMakeLists.txt and change the architecture to the one you are using, please. If you run the application with nvprof you will see that it does not run any CUDA kernel.
+
 ## What to cite
 
 If you use this code for your research, please kindly cite:
