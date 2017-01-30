@@ -59,6 +59,7 @@ ICCS2016 – International Conference on Computational Science 2016
 ## Limitations
 
 - Maximum disparity has to be 128
+- PATH_AGGREGATION parameters allowed paramters are 4 and 8
 - Image width and height must be a divisible by 4
 
 ## Troubleshooting
