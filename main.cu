@@ -102,6 +102,14 @@ int main(int argc, char *argv[]) {
 		std::cerr << "Usage: cuda_sgm dir p1 p2" << std::endl;
 		return -1;
 	}
+	if(MAX_DISPARITY != 128) {
+		std::cerr << "Due to implementation limitations MAX_DISPARITY must be 128" << std::endl;
+		return -1;
+	}
+	if(PATH_AGGREGATION != 4 && PATH_AGGREGATION != 8) {
+                std::cerr << "Due to implementation limitations PATH_AGGREGATION must be 4 or 8" << std::endl;
+                return -1;
+        }
 	const char* directory = argv[1];
 	uint8_t p1, p2;
 	p1 = atoi(argv[2]);
@@ -176,6 +184,10 @@ int main(int argc, char *argv[]) {
 		if(h_im0.rows != h_im1.rows || h_im0.cols != h_im1.cols) {
 			std::cerr << "Both images must have the same dimensions" << std::endl;
 			return EXIT_FAILURE;
+		}
+		if(h_im0.rows % 4 != 0 || h_im0.cols % 4 != 0) {
+                        std::cerr << "Due to implementation limitations image width and height must be a divisible by 4" << std::endl;
+                        return EXIT_FAILURE;
 		}
 
 #if LOG
