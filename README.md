@@ -18,6 +18,12 @@ Results for example image (Output):
 
 <img src="example/disparities/2.png" alt="Example output" width="100%">
 
+Parameters used for KITTI:
+- 2 path directions: P1=7, P2=84
+- 4 path directions: P1=7, P2=86
+- 8 path directions: P1=6, P2=96
+
+
 ## How to compile and test
 
 Simply use CMake and target the output directory as "build". In command line this would be (from the project root folder):
