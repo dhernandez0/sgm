@@ -18,7 +18,7 @@ Results for example image (Output):
 
 <img src="example/disparities/2.png" alt="Example output" width="100%">
 
-Parameters used for KITTI:
+Parameters used for KITTI 2015:
 - 2 path directions: P1=7, P2=84
 - 4 path directions: P1=7, P2=86
 - 8 path directions: P1=6, P2=96
