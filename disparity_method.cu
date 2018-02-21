@@ -116,11 +116,21 @@ cv::Mat compute_disparity_method(cv::Mat left, cv::Mat right, float *elapsed_tim
 
 	debug_log("Calling CSCT");
 	CenterSymmetricCensusKernelSM2<<<grid_size, block_size, 0, stream1>>>(d_im0, d_im1, d_transform0, d_transform1, rows, cols);
+	cudaError_t err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 
 	// Hamming distance
 	CUDA_CHECK_RETURN(cudaStreamSynchronize(stream1));
 	debug_log("Calling Hamming Distance");
 	HammingDistanceCostKernel<<<rows, MAX_DISPARITY, 0, stream1>>>(d_transform0, d_transform1, d_cost, rows, cols);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 
 	// Cost Aggregation
 	const int PIXELS_PER_BLOCK = COSTAGG_BLOCKSIZE/WARP_SIZE;
@@ -128,23 +138,68 @@ cv::Mat compute_disparity_method(cv::Mat left, cv::Mat right, float *elapsed_tim
 
 	debug_log("Calling Left to Right");
 	CostAggregationKernelLeftToRight<<<(rows+PIXELS_PER_BLOCK_HORIZ-1)/PIXELS_PER_BLOCK_HORIZ, COSTAGG_BLOCKSIZE_HORIZ, 0, stream2>>>(d_cost, d_L0, p1, p2, rows, cols, d_transform0, d_transform1, d_disparity, d_L0, d_L1, d_L2, d_L3, d_L4, d_L5, d_L6);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 	debug_log("Calling Right to Left");
 	CostAggregationKernelRightToLeft<<<(rows+PIXELS_PER_BLOCK_HORIZ-1)/PIXELS_PER_BLOCK_HORIZ, COSTAGG_BLOCKSIZE_HORIZ, 0, stream3>>>(d_cost, d_L1, p1, p2, rows, cols, d_transform0, d_transform1, d_disparity, d_L0, d_L1, d_L2, d_L3, d_L4, d_L5, d_L6);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 	debug_log("Calling Up to Down");
 	CostAggregationKernelUpToDown<<<(cols+PIXELS_PER_BLOCK-1)/PIXELS_PER_BLOCK, COSTAGG_BLOCKSIZE, 0, stream1>>>(d_cost, d_L2, p1, p2, rows, cols, d_transform0, d_transform1, d_disparity, d_L0, d_L1, d_L2, d_L3, d_L4, d_L5, d_L6);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 	CUDA_CHECK_RETURN(cudaDeviceSynchronize());
 	debug_log("Calling Down to Up");
 	CostAggregationKernelDownToUp<<<(cols+PIXELS_PER_BLOCK-1)/PIXELS_PER_BLOCK, COSTAGG_BLOCKSIZE, 0, stream1>>>(d_cost, d_L3, p1, p2, rows, cols, d_transform0, d_transform1, d_disparity, d_L0, d_L1, d_L2, d_L3, d_L4, d_L5, d_L6);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 
 #if PATH_AGGREGATION == 8
 	CostAggregationKernelDiagonalDownUpLeftRight<<<(cols+PIXELS_PER_BLOCK-1)/PIXELS_PER_BLOCK, COSTAGG_BLOCKSIZE, 0, stream1>>>(d_cost, d_L4, p1, p2, rows, cols, d_transform0, d_transform1, d_disparity, d_L0, d_L1, d_L2, d_L3, d_L4, d_L5, d_L6);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 	CostAggregationKernelDiagonalUpDownLeftRight<<<(cols+PIXELS_PER_BLOCK-1)/PIXELS_PER_BLOCK, COSTAGG_BLOCKSIZE, 0, stream1>>>(d_cost, d_L5, p1, p2, rows, cols, d_transform0, d_transform1, d_disparity, d_L0, d_L1, d_L2, d_L3, d_L4, d_L5, d_L6);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 
 	CostAggregationKernelDiagonalDownUpRightLeft<<<(cols+PIXELS_PER_BLOCK-1)/PIXELS_PER_BLOCK, COSTAGG_BLOCKSIZE, 0, stream1>>>(d_cost, d_L6, p1, p2, rows, cols, d_transform0, d_transform1, d_disparity, d_L0, d_L1, d_L2, d_L3, d_L4, d_L5, d_L6);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 	CostAggregationKernelDiagonalUpDownRightLeft<<<(cols+PIXELS_PER_BLOCK-1)/PIXELS_PER_BLOCK, COSTAGG_BLOCKSIZE, 0, stream1>>>(d_cost, d_L7, p1, p2, rows, cols, d_transform0, d_transform1, d_disparity, d_L0, d_L1, d_L2, d_L3, d_L4, d_L5, d_L6);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 #endif
 	debug_log("Calling Median Filter");
 	MedianFilter3x3<<<(size+MAX_DISPARITY-1)/MAX_DISPARITY, MAX_DISPARITY, 0, stream1>>>(d_disparity, d_disparity_filtered_uchar, rows, cols);
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		printf("Error: %s %d\n", cudaGetErrorString(err), err);
+		exit(-1);
+	}
 
 	cudaEventRecord(stop, 0);
 	CUDA_CHECK_RETURN(cudaDeviceSynchronize());
