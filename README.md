@@ -1,6 +1,6 @@
 # Semi-Global Matching on the GPU
 
-This is the implementation of [Embedded real-time stereo estimation via Semi-Global Matching on the GPU](http://www.sciencedirect.com/science/article/pii/S1877050916306561), [D. Hernandez-Juarez](http://www.cvc.uab.es/people/dhernandez/) et al, ICCS 2016.
+This is the implementation of [Embedded real-time stereo estimation via Semi-Global Matching on the GPU](http://www.sciencedirect.com/science/article/pii/S1877050916306561), [D. Hernandez-Juarez](http://danihernandez.eu) et al, ICCS 2016.
 
 Performance obtained measured in Frames Per Second (FPS):
 
@@ -53,7 +53,7 @@ dir
 ## Related Publications
 
 [Embedded real-time stereo estimation via Semi-Global Matching on the GPU](http://www.sciencedirect.com/science/article/pii/S1877050916306561)
-[D. Hernandez-Juarez](http://www.cvc.uab.es/people/dhernandez/), A. Chacón, A. Espinosa, D. Vázquez, J. C. Moure, and A. M. López
+[D. Hernandez-Juarez](http://danihernandez.eu), A. Chacón, A. Espinosa, D. Vázquez, J. C. Moure, and A. M. López
 ICCS2016 – International Conference on Computational Science 2016
 
 ## Requirements
