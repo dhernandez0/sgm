@@ -35,6 +35,10 @@ cmake ..
 make
 ```
 
+Note: if this doesn't work for you, please modify CMakeLists.txt for your CUDA architecture!
+Example: for RTX 3080 add "-gencode=arch=compute_86,code=sm_86"
+
+
 ## How to use it
 
 Type: `./sgm dir p1 p2`
