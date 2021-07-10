@@ -103,8 +103,7 @@ __inline__ __device__ int shfl_32(int scalarValue, const int lane) {
 	#if FERMI
 		return __emulated_shfl(scalarValue, (uint32_t)lane);
 	#else
-		//return __shfl(scalarValue, lane); deprecated
-		return __shfl_sync(0xffffffff,scalarValue, lane);
+		return __shfl_sync(0xffffffff, scalarValue, lane);
 	#endif
 }
 
@@ -114,7 +113,7 @@ __inline__ __device__ int shfl_up_32(int scalarValue, const int n) {
 		lane -= n;
 		return shfl_32(scalarValue, lane);
 	#else
-		return __shfl_up_sync(0xffffffff,scalarValue, n);
+		return __shfl_up_sync(0xffffffff, scalarValue, n);
 	#endif
 }
 
@@ -124,7 +123,7 @@ __inline__ __device__ int shfl_down_32(int scalarValue, const int n) {
 		lane += n;
 		return shfl_32(scalarValue, lane);
 	#else
-		return __shfl_down_sync(0xffffffff,scalarValue, n);
+		return __shfl_down_sync(0xffffffff, scalarValue, n);
 	#endif
 }
 
@@ -134,7 +133,7 @@ __inline__ __device__ int shfl_xor_32(int scalarValue, const int n) {
 		lane = lane ^ n;
 		return shfl_32(scalarValue, lane);
 	#else
-		return __shfl_xor_sync(0xffffffff,scalarValue, n);
+		return __shfl_xor_sync(0xffffffff, scalarValue, n);
 	#endif
 }
 
@@ -340,7 +339,7 @@ __inline__ __device__ bool blockAny(bool local_condition) {
 	const int lane = threadIdx.x % WARP_SIZE;
 	const int wid = threadIdx.x / WARP_SIZE;
 
-	local_condition = __any(local_condition);     // Each warp performs __any
+	local_condition = __any_sync(0xffffffff, local_condition);     // Each warp performs __any
 
 	if (lane==0) {
 		conditions[wid]=local_condition;
@@ -352,7 +351,7 @@ __inline__ __device__ bool blockAny(bool local_condition) {
 	local_condition = (threadIdx.x < blockDim.x / WARP_SIZE) ? conditions[lane] : false;
 
 	if (wid==0) {
-		local_condition = __any(local_condition); //Final __any within first warp
+		local_condition = __any_sync(0xffffffff, local_condition); //Final __any within first warp
 	}
 
 	return local_condition;

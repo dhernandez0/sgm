@@ -21,12 +21,6 @@ project(sgm)
 find_package( OpenCV REQUIRED )
 find_package( CUDA REQUIRED )
 
-SET(OpenCV_DIR /home/lichi/packages/opencv3/build/installation/OpenCV-3.4.12/share/OpenCV)
-SET(OpenCV_INCLUDE_DIRS /home/lichi/packages/opencv3/build/installation/OpenCV-3.4.12/include)
-
-message(STATUS "OpenCV_INCLUDE_DIRS = ${OpenCV_INCLUDE_DIRS}")
-message(STATUS "OpenCV_DIR = ${OpenCV_DIR}")
-message(STATUS "OpenCV_LIBS = ${OpenCV_LIBS}")
 set(
     CUDA_NVCC_FLAGS
     ${CUDA_NVCC_FLAGS};
